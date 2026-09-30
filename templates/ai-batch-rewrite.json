@@ -1,0 +1,95 @@
+{
+  "name": "AI 批量文案改写",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "11111111-1111-4111-8111-111111111111",
+      "name": "手动触发",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 示例输入：把 texts 换成你自己的文案列表，或改成从表格/接口读取\nconst texts = [\n  '这款蓝牙耳机续航30小时，音质清晰，限时特价',\n  '新店开业，全场八折，到店送小礼物',\n  '周末不加价，亲子房特惠，适合带娃出行'\n];\nreturn texts.map(t => ({ json: { original: t } }));"
+      },
+      "id": "22222222-2222-4222-8222-222222222222",
+      "name": "示例文案",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://kuafushe.cc/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-6-astra\",\n  \"messages\": [\n    { \"role\": \"system\", \"content\": \"你是资深电商文案，把用户给的原始文案改写得更吸引人。只输出改写后的文案，不要任何解释。\" },\n    { \"role\": \"user\", \"content\": {{ JSON.stringify($json.original) }} }\n  ],\n  \"temperature\": 0.7,\n  \"max_tokens\": 300\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "33333333-3333-4333-8333-333333333333",
+      "name": "调用 API 改写",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 提取改写结果，并保留原始文案\nconst originals = $('示例文案').all();\nreturn $input.all().map((item, i) => ({\n  json: {\n    original: originals[i]?.json?.original ?? '',\n    rewritten: item.json?.choices?.[0]?.message?.content ?? '(无返回)'\n  }\n}));"
+      },
+      "id": "44444444-4444-4444-8444-444444444444",
+      "name": "提取结果",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 300]
+    }
+  ],
+  "connections": {
+    "手动触发": {
+      "main": [
+        [
+          {
+            "node": "示例文案",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "示例文案": {
+      "main": [
+        [
+          {
+            "node": "调用 API 改写",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "调用 API 改写": {
+      "main": [
+        [
+          {
+            "node": "提取结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "meta": {
+    "instanceId": "kuafushe-template"
+  },
+  "tags": []
+}

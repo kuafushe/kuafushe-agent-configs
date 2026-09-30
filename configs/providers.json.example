@@ -1,0 +1,17 @@
+{
+  "_comment": "Anthropic 兼容 provider 示例 — 整块粘进你项目 providers.json 的 providers 数组里",
+  "providers": [
+    {
+      "name": "kuafushe",
+      "_comment": "base_url 只填域名：不带 /v1（客户端自己拼），也不要带 /anthropic 后缀",
+      "base_url": "https://kuafushe.cc",
+      "api_key": "sk-你的密钥",
+      "models": {
+        "sonnet": "claude-sonnet-4-5-20250929",
+        "haiku": "claude-haiku-4-5-20251001",
+        "opus": "claude-opus-4-8",
+        "judge": "claude-haiku-4-5-20251001"
+      }
+    }
+  ]
+}
