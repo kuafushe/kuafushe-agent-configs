@@ -78,10 +78,8 @@ curl -i https://kuafushe.cc/v1/messages \
 
 ## 关于本仓库的端点
 
-示例里用的是 [夸父社API](https://kuafushe.cc)（同时兼容 OpenAI + Anthropic 原生协议，1:1 汇率，¥1 起充）。
+示例里用的是 [夸父社API](https://kuafushe.cc)（OpenAI + Anthropic 双协议，1:1 汇率，¥1 起充，新用户送 $0.2 体验额度，注册入口见 [此处](https://kuafushe.cc/register?aff=XB5VM25Z6A8C)）。
 换任何其他兼容端点，方法完全一样 —— **只改 `base_url`，代码一行不动**。
-
-注册送 $0.2 体验额度：https://kuafushe.cc/register?aff=XB5VM25Z6A8C
 
 ---
 

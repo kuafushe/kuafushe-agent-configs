@@ -3,7 +3,6 @@
 面向 n8n 用户的中文工作流模板，均接入 **Anthropic / OpenAI 兼容的 LLM API**。
 
 > 端点：`https://kuafushe.cc/v1`（OpenAI 兼容）
-> 注册：https://kuafushe.cc/register?aff=XB5VM25Z6A8C
 
 ## 可用模板
 
